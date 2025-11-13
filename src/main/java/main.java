@@ -1,13 +1,14 @@
+package main.java;
+
 import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) {
-        SistemOtentikasi sistem = new SistemOtentikasi();
+        // Buat user yang terdaftar (hardcoded untuk testing)
+        Users registeredUser = new Users("admin", "admin123");
         
-        // Menambahkan beberapa user untuk testing
-        sistem.tambahUser(new User("admin", "admin123"));
-        sistem.tambahUser(new User("user1", "password1"));
-        sistem.tambahUser(new User("john", "doe123"));
+        // Buat object Auth dengan user yang terdaftar
+        Auth auth = new Auth(registeredUser);
         
         Scanner scanner = new Scanner(System.in);
         
@@ -19,9 +20,11 @@ public class main {
         String password = scanner.nextLine();
         
         try {
-            sistem.login(username, password);
-            System.out.println("Login successful! Welcome, " + username);
-        } catch (UserInvalidException | PasswordInvalidException e) {
+            auth.login(username, password);
+            System.out.println("Welcome, " + username + "!");
+        } catch (InvalidUserException e) {
+            System.out.println("Login failed: " + e.getMessage());
+        } catch (InvalidPasswordException e) {
             System.out.println("Login failed: " + e.getMessage());
         }
         
