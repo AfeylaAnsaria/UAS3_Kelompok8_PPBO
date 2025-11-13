@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run LoginServer",
+      "request": "launch",
+      "mainClass": "main.java.LoginServer",
+      "projectName": "UAS3_Kelompok8_PPBO"
+    }
+  ]
+}
