@@ -188,6 +188,14 @@
         .icon {
             margin-right: 8px;
         }
+
+        .redirecting {
+            text-align: center;
+            font-size: 12px;
+            color: #155724;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -245,6 +253,7 @@
                     username: 'admin',
                     password: 'admin123'
                 };
+                this.youtubeUrl = 'https://youtu.be/Z34E07cM0bE?si=FjT_3-4XMNmJhAI9';
             }
 
             login(username, password) {
@@ -284,6 +293,10 @@
                     }
                 }
             }
+
+            redirectToYoutube() {
+                window.location.href = this.youtubeUrl;
+            }
         }
 
         // Inisialisasi sistem
@@ -302,13 +315,13 @@
             notif.className = 'notification show ' + (result.success ? 'success' : 'error');
             notif.innerHTML = '<span class="icon">' + (result.success ? '✓' : '✗') + '</span>' + result.message;
 
-            // Reset form jika berhasil
+            // Redirect ke YouTube jika berhasil
             if (result.success) {
+                notif.innerHTML += '<div class="redirecting">Mengarahkan ke YouTube dalam 2 detik...</div>';
+                
                 setTimeout(() => {
-                    document.getElementById('username').value = '';
-                    document.getElementById('password').value = '';
-                    notif.classList.remove('show');
-                }, 3000);
+                    sistem.redirectToYoutube();
+                }, 2000);
             }
         }
 
