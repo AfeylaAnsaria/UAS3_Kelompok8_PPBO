@@ -70,6 +70,3 @@ classDiagram
     main ..> Auth : creates
     main ..> InvalidUserException : catches
     main ..> InvalidPasswordException : catches
-
-    %% Notes
-    note for LoginServer "HTTP server on port 8080\nServes /index.html and /api/login\nDemo: admin/admin123"
