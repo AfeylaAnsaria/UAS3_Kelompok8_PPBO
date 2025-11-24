@@ -1,40 +1,49 @@
-# UML
+# Flowchart
 
 ```mermaid
-classDiagram 
-    class Main {
-        +main(String[] args)
-    }
-    
+classDiagram
+    direction LR
+
     class Users {
-        -String username
-        -String password
-        +Users(String userName, String password)
-        +getUsername() String
-        +getPassword() String
+        - username: String
+        - password: String
+        + Users(username: String, password: String)
+        + getUsername(): String
+        + getPassword(): String
     }
-    
+
     class Auth {
-        -Users userRegistered
-        +Auth(Users userRegistered)
-        +login(String userName, String password)
-    }
-    
-    class InvalidUserException {
-        +InvalidUserException(String message)
-    }
-    
-    class InvalidPasswordException {
-        +InvalidPasswordException(String message)
+        - userRegistered: Users
+        + Auth(userRegistered: Users)
+        + login(userName: String, password: String)
     }
 
-    
-    Main ..> Users : creates
-    Main ..> Auth : creates
-    Main ..> InvalidUserException : catches
-    Main ..> InvalidPasswordException : catches
-    
+    class InvalidUserException
+    class InvalidPasswordException
+
+    class LoginServer {
+        - registeredUser: Users <<static>>
+        - auth: Auth <<static>>
+        + main(args: String[])
+    }
+
+    class main {
+        + main(args: String[])
+    }
+
+    class StaticFileHandler {
+        + handle(exchange)
+    }
+
+    class LoginHandler {
+        + handle(exchange)
+        - extractJsonValue(json: String, key: String): String
+    }
+
+    %% Relationships
     Auth --> Users : uses
-    Auth ..> InvalidUserException : throws
-    Auth ..> InvalidPasswordException : throws
-
+    LoginServer o-- Users : registeredUser
+    LoginServer o-- Auth : auth
+    LoginServer ..> StaticFileHandler : creates
+    LoginServer ..> LoginHandler : creates
+    LoginHandler --> Auth : calls login(...)
