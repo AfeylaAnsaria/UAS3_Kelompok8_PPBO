@@ -1,8 +1,5 @@
-# Flowchart
-
-```mermaid
 classDiagram
-    direction LR
+    direction TB
 
     class Users {
         - username: String
@@ -15,35 +12,64 @@ classDiagram
     class Auth {
         - userRegistered: Users
         + Auth(userRegistered: Users)
-        + login(userName: String, password: String)
+        + login(userName: String, password: String) throws InvalidUserException, InvalidPasswordException
     }
 
-    class InvalidUserException
-    class InvalidPasswordException
+    class Exception {
+        <<Java Built-in>>
+    }
+
+    class InvalidUserException {
+        + InvalidUserException()
+        + InvalidUserException(message: String)
+    }
+
+    class InvalidPasswordException {
+        + InvalidPasswordException()
+        + InvalidPasswordException(message: String)
+    }
 
     class LoginServer {
         - registeredUser: Users <<static>>
         - auth: Auth <<static>>
-        + main(args: String[])
+        + main(args: String[]) <<static>>
     }
 
     class main {
-        + main(args: String[])
+        + main(args: String[]) <<static>>
     }
 
     class StaticFileHandler {
-        + handle(exchange)
+        <<inner class>>
+        + handle(exchange: HttpExchange)
+        - getContentType(path: String): String
     }
 
     class LoginHandler {
-        + handle(exchange)
+        <<inner class>>
+        + handle(exchange: HttpExchange)
         - extractJsonValue(json: String, key: String): String
     }
 
-    %% Relationships
-    Auth --> Users : uses
-    LoginServer o-- Users : registeredUser
-    LoginServer o-- Auth : auth
-    LoginServer ..> StaticFileHandler : creates
-    LoginServer ..> LoginHandler : creates
-    LoginHandler --> Auth : calls login(...)
+    %% Inheritance
+    Exception <|-- InvalidUserException
+    Exception <|-- InvalidPasswordException
+
+    %% Composition & Aggregation
+    Auth *-- Users : has-a
+    LoginServer o-- Users : registeredUser (static)
+    LoginServer o-- Auth : auth (static)
+
+    %% Dependencies
+    LoginServer ..> StaticFileHandler : contains (inner)
+    LoginServer ..> LoginHandler : contains (inner)
+    LoginHandler ..> Auth : calls login()
+    Auth ..> InvalidUserException : throws
+    Auth ..> InvalidPasswordException : throws
+    main ..> Users : creates
+    main ..> Auth : creates
+    main ..> InvalidUserException : catches
+    main ..> InvalidPasswordException : catches
+
+    %% Notes
+    note for LoginServer "HTTP server on port 8080\nServes /index.html and /api/login\nDemo: admin/admin123"
