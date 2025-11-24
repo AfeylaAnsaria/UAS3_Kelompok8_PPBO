@@ -25,10 +25,7 @@ classDiagram
     class InvalidPasswordException {
         +InvalidPasswordException(String message)
     }
-    
-    class Exception {
-        <<exception>>
-    }
+
     
     Main ..> Users : creates
     Main ..> Auth : creates
@@ -38,4 +35,4 @@ classDiagram
     Auth --> Users : uses
     Auth ..> InvalidUserException : throws
     Auth ..> InvalidPasswordException : throws
-    
+
