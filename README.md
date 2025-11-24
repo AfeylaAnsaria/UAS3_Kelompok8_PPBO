@@ -39,5 +39,3 @@ classDiagram
     Auth ..> InvalidUserException : throws
     Auth ..> InvalidPasswordException : throws
     
-    Exception <|-- InvalidUserException : extends
-    Exception <|-- InvalidPasswordException : extends
