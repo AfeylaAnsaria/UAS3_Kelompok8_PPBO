@@ -1,5 +1,5 @@
-## UML
-classDiagram
+```mermaid
+classDiagram 
     class Main {
         +main(String[] args)
     }
@@ -41,5 +41,3 @@ classDiagram
     
     Exception <|-- InvalidUserException : extends
     Exception <|-- InvalidPasswordException : extends
-
-
