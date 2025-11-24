@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     direction TB
 
@@ -12,7 +13,7 @@ classDiagram
     class Auth {
         - userRegistered: Users
         + Auth(userRegistered: Users)
-        + login(userName: String, password: String) throws InvalidUserException, InvalidPasswordException
+        + login(userName: String, password: String) 
     }
 
     class Exception {
@@ -61,8 +62,8 @@ classDiagram
     LoginServer o-- Auth : auth (static)
 
     %% Dependencies
-    LoginServer ..> StaticFileHandler : contains (inner)
-    LoginServer ..> LoginHandler : contains (inner)
+    LoginServer ..> StaticFileHandler : contains
+    LoginServer ..> LoginHandler : contains
     LoginHandler ..> Auth : calls login()
     Auth ..> InvalidUserException : throws
     Auth ..> InvalidPasswordException : throws
@@ -70,3 +71,9 @@ classDiagram
     main ..> Auth : creates
     main ..> InvalidUserException : catches
     main ..> InvalidPasswordException : catches
+
+    %% Notes
+    note for LoginServer
+        "HTTP server on port 8080
+        Serves /index.html and /api/login
+        Demo: admin/admin123"
